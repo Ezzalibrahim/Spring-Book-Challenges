@@ -1,6 +1,7 @@
 package com.books;
 
 import com.books.Entities.Book;
+import com.books.Enums.BookCategories;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,7 +11,7 @@ public class BooksApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooksApplication.class, args);
-		Book book = new Book("test" , 12);
+		Book book = new Book(12 , "test" ,  12 ,BookCategories.Action);
 		System.out.println(book.getTitle());
 		System.out.println(book.getPrice());
 		book.setPrice(53);
