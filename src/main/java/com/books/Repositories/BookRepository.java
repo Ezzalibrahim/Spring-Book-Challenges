@@ -3,6 +3,9 @@ package com.books.Repositories;
 import com.books.Entities.Book;
 import com.books.Enums.BookCategories;
 import com.books.Exceptions.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.nio.file.FileSystemNotFoundException;
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Repository
+@Primary
 public class BookRepository implements BookReposInterface{
 
     List<Book> allBooks = new ArrayList<>();
@@ -160,6 +165,11 @@ public class BookRepository implements BookReposInterface{
                 book -> book.getPrice() >= min
                         && book.getPrice() <= max
             ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Book getById(int id) {
+        return allBooks.stream().filter(book -> book.getId() ==  id).findFirst().get();
     }
 
     int getIndexById(int id){
