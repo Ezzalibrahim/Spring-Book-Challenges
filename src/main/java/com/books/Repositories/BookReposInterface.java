@@ -19,5 +19,5 @@ public interface BookReposInterface {
     List<Book> sortByPrice(boolean Des);
     List<Book> filterByPrice(double min ,double max);
 
-    Book getById(int id);
+    Book getById(int id) throws EntityNotFoundException;
 }

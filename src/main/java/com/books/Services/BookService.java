@@ -1,6 +1,7 @@
 package com.books.Services;
 
 import com.books.Entities.Book;
+import com.books.Exceptions.EntityNotFoundException;
 import com.books.Repositories.BookReposInterface;
 import com.books.Repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import java.util.List;
 public class BookService {
 
     // @Primary and @Qualifier("bookRepository")
-
     private BookReposInterface bookRepo;
 
     public BookService(BookReposInterface bookRepo) {
@@ -34,8 +34,25 @@ public class BookService {
     }
 
     public Book getById(int id){
-        return bookRepo.getById(id);
+        try {
+            return bookRepo.getById(id);
+        }catch (EntityNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 
+    public void update(int id, Book book) throws EntityNotFoundException {
+        bookRepo.update(id , book);
+    }
+
+    public List<Book> sortByPrice(boolean des) {
+        System.out.println("service " + des);
+        return bookRepo.sortByPrice(des);
+    }
+
+    public List<Book> filterByPrice(int min, int max) {
+        return bookRepo.filterByPrice(min,max);
+    }
 }
