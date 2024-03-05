@@ -2,8 +2,12 @@ package com.books.Entities;
 
 
 import com.books.Enums.BookCategories;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 //@Getter @Setter
 @NoArgsConstructor
@@ -17,12 +21,18 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(name = "book_title" , length = 100 , unique = true )
     private String title;
-
-
     private double price;
-    private BookCategories category; // action & Action & ACtion
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Category category;
+
+    @ManyToMany(mappedBy = "books")
+    @JsonIgnoreProperties({"books"})
+    private List<Author> authors;
+
+    //private BookCategories category; // action & Action & ACtion
 
 }
