@@ -23,6 +23,7 @@ public class Book {
     private int id;
     @Column(name = "book_title" , length = 100 , unique = true )
     private String title;
+    private String image;
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)

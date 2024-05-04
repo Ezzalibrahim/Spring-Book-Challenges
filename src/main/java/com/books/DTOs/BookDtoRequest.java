@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -13,4 +14,5 @@ import lombok.Setter;
 public class BookDtoRequest {
     private String title;
     private double price;
+    private MultipartFile image;
 }

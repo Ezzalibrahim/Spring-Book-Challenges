@@ -8,9 +8,11 @@ import com.books.Exceptions.EntityNotFoundException;
 import com.books.Mappers.BookMapper;
 import com.books.Repositories.BookRepositoryDB;
 import com.books.Repositories.CategoryRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,18 +21,25 @@ public class BookServiceDB {
 
     private final BookRepositoryDB bookRepository;
     private final CategoryRepository categoryRepository ;
-
-    public BookServiceDB(BookRepositoryDB bookRepository, CategoryRepository categoryRepository) {
+    private final CloudinaryService cloudinaryService;
+    public BookServiceDB(BookRepositoryDB bookRepository, CategoryRepository categoryRepository, CloudinaryService cloudinaryService) {
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
+        this.cloudinaryService = cloudinaryService;
     }
 
     public List<Book> getAll(){
         return bookRepository.findAll();
     }
 
-    public void add(Book book) {
-        bookRepository.save(book);
+    public void add(BookDtoRequest book) {
+
+        String imageUrl = cloudinaryService.uploadFile(book.getImage(), "folder_1");
+        ResponseEntity.ok().body(Map.of("url", imageUrl));
+
+        Book book1 = BookMapper.toEntity(book);
+        book1.setImage(imageUrl);
+        bookRepository.save(book1);
     }
 
     public void update(int id, Book book) throws EntityNotFoundException {
