@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,4 +33,14 @@ public class CloudinaryService  {
             return null;
         }
     }
+
+    public List<String> uploadFileList(List<MultipartFile> files, String folderName ){
+        List<String> filesName = new ArrayList<>();
+        for (MultipartFile file : files) {
+            filesName.add(uploadFile(file , folderName));
+        }
+
+        return filesName;
+    }
+
 }
